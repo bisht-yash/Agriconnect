@@ -1,0 +1,3 @@
+import 'dotenv/config'; import mongoose from 'mongoose'; import bcrypt from 'bcryptjs'; import User from '../models/User.js';
+const user={name:'AgriConnect Admin',email:'admin@agriconnect.local',phone:'9000000000',password:'Admin@123',role:'admin',state:'Delhi',district:'New Delhi'};
+await mongoose.connect(process.env.MONGO_URI||'mongodb://127.0.0.1:27017/agriconnect'); user.password=await bcrypt.hash(user.password,12); await User.findOneAndUpdate({email:user.email},user,{upsert:true,new:true,setDefaultsOnInsert:true}); console.log('Seeded admin: admin@agriconnect.local / Admin@123'); await mongoose.disconnect();

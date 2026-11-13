@@ -1,0 +1,3 @@
+import mongoose from 'mongoose';
+const schema=new mongoose.Schema({name:{type:String,required:true,unique:true,index:true},slug:{type:String,required:true,unique:true},soilTypes:[String],idealPh:{min:Number,max:Number},temperature:{min:Number,max:Number},humidity:{min:Number,max:Number},waterRequirement:String,irrigation:String,sunlight:String,sowingPeriod:String,growingDuration:String,harvestPeriod:String,fertilizerGuidance:String,nutrientRequirements:{nitrogen:String,phosphorus:String,potassium:String},commonDiseases:[String],commonPests:[String],prevention:String,harvesting:String,storage:String},{timestamps:true});
+export default mongoose.model('Crop',schema);

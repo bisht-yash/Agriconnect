@@ -1,0 +1,18 @@
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
+import { ArrowRight, Landmark, ScanLine, Sprout, Store } from 'lucide-react';
+import AppLayout from './layouts/AppLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import CropRecommendation from './pages/CropRecommendation';
+import NotFound from './pages/NotFound';
+import DiseaseDetection from './pages/DiseaseDetection';
+import CropAdvisory from './pages/CropAdvisory';
+import Marketplace from './pages/Marketplace';
+import GovernmentSchemes from './pages/GovernmentSchemes';
+
+const cards=[['Crop Recommendation','Find crops suited to your soil and climate.','/recommend',Sprout],['Disease Detection','Upload a leaf image for supported disease classification.','/disease',ScanLine],['Crop Advisory','Explore structured growing and harvesting guidance.','/advisory',Sprout],['Marketplace','Connect farmers and buyers directly.','/marketplace',Store],['Government Schemes','Explore verified scheme information.','/schemes',Landmark]];
+function Home(){const {user}=useAuth();return <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16"><div className="grid items-center gap-12 lg:grid-cols-2"><section><p className="font-semibold text-emerald-700">SMART AGRICULTURE PLATFORM</p><h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">From soil insights to market access.</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">AgriConnect brings crop intelligence, disease detection, farm advisory, verified schemes and direct trading into one platform.</p><div className="mt-8 flex flex-wrap gap-3"><Link className="rounded-xl bg-emerald-700 px-5 py-3 font-semibold text-white" to={user?'/dashboard':'/register'}>{user?'Open Dashboard':'Get started'} <ArrowRight className="ml-1 inline" size={17}/></Link><Link className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold" to="/marketplace">Explore Marketplace</Link></div></section><div className="rounded-3xl bg-emerald-950 p-8 text-white shadow-xl"><p className="text-emerald-300">The farmer journey</p><div className="mt-6 space-y-4">{['Assess growing conditions','Understand crop advisory','Check leaf health','Find schemes','Sell after harvest'].map((x,i)=><div key={x} className="flex items-center gap-4 rounded-2xl bg-white/10 p-4"><span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15">{i+1}</span>{x}</div>)}</div></div></div><div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">{cards.map(([t,d,u,I])=><Link to={u} key={t} className="rounded-2xl border bg-white p-5 transition hover:-translate-y-1 hover:shadow-lg"><I className="text-emerald-700"/><h2 className="mt-5 font-bold">{t}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{d}</p></Link>)}</div></main>}
+export default function App(){return <Routes><Route element={<AppLayout/>}><Route path="/" element={<Home/>}/><Route path="/login" element={<Login/>}/><Route path="/register" element={<Register/>}/><Route path="/recommend" element={<ProtectedRoute><CropRecommendation/></ProtectedRoute>}/><Route path="/disease" element={<ProtectedRoute><DiseaseDetection/></ProtectedRoute>}/><Route path="/advisory" element={<CropAdvisory/>}/><Route path="/marketplace" element={<Marketplace/>}/><Route path="/schemes" element={<GovernmentSchemes/>}/><Route element={<ProtectedRoute/>}><Route path="/dashboard" element={<Dashboard/>}/></Route><Route path="*" element={<NotFound/>}/></Route></Routes>}
